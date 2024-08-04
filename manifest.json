@@ -1,0 +1,15 @@
+{
+  "name": "Solitaire",
+  "short_name": "Solitaire",
+  "description": "A free solitaire game with many options",
+	"icons": [
+    {
+      "src": "images/playing-cards 512x512.png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/Solitaire/index.html",
+  "theme_color": "#eeffee",
+  "background_color": "#eeffee",
+  "display": "standalone"
+}

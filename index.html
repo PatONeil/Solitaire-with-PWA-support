@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Solitaire</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="robots" content="noindex, nofollow">
+	<link rel="icon" href="images/playing-cards 64x64.png" />
+	<link rel="manifest" href="manifest.json" />
+	<meta name="googlebot" content="noindex, nofollow">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel='stylesheet' href="css/solitaire.css">
+	<script type="module" src="js/solitare.js"></script>
+</head>
+
+<body>
+  <wrapper>
+	<nav class="navbar">
+		<a href="#" data-menu="newgame"> <img src="images/newGame.svg" title="New Game" class="gameIcons"> </a>
+		<a href="#" data-menu="undo"> <img src="images/undo.png" title="Undo" class="gameIcons"> </a>
+		<a href="#" data-menu="rewind"> <img src="images/rewind.png" title="Restart" class="gameIcons"> </a>
+		<a href="#" data-menu="playcard"> <img src="images/oneStep.png" title="Play a card" class="gameIcons"> </a>
+		<a href="#" data-menu="finish"> <img src="images/finish.png" title="Finish Game" class="gameIcons"> </a>
+		<a href="#" data-menu="options"> <img src="images/setting.png" title="Settings" class="gameIcons"> </a>
+	</nav>
+	<div class="score">
+		<div style="font-size:17px;margin-top:-4px;"><span>Current Score</span><span id="currentScore">10</span></div>
+		<div style="font-size:17px;margin-top:-4px;"><span>Vegas Score  </span><span id="totalScore">  10</span></div>
+	</div>
+	<div id="gameArea" class="gameArea">
+		<div id="playArea">
+			<div class="playAreaCard">
+				<div id="deckArea" class="deckArea"></div>
+			</div>
+			<div id="turnArea" class="playAreaCard turnArea" style="grid-column: 2 / 4; border:0px;"></div>
+			<div class="playAreaCard">
+				<div id="aceArea1" class="aceArea" style="border:1px solid grey"></div>
+			</div>
+			<div class="playAreaCard">
+				<div id="aceArea2" class="aceArea" style="border:1px solid grey"></div>
+			</div>
+			<div class="playAreaCard">
+				<div id="aceArea3" class="aceArea" style="border:1px solid grey"></div>
+			</div>
+			<div class="playAreaCard">
+				<div id="aceArea4" class="aceArea" style="border:1px solid grey"></div>
+			</div>
+		</div>
+		<div id="layoutArea">
+			<div id="layoutCard1" class="layoutCard"></div>
+			<div id="layoutCard2" class="layoutCard"></div>
+			<div id="layoutCard3" class="layoutCard"></div>
+			<div id="layoutCard4" class="layoutCard"></div>
+			<div id="layoutCard5" class="layoutCard"></div>
+			<div id="layoutCard6" class="layoutCard"></div>
+			<div id="layoutCard7" class="layoutCard"></div>
+		</div>
+	</div>
+	<div class="footer">Copyright 2024 by Patrick J. O'Neil</div>
+   </wrapper>	
+	<dialog id="gameOverDialog" class="e-dialog" style="width: 300px;">
+			<header style="font-weight: bold;">
+				Game Over - No more plays possible: 
+			</header>
+			<div style="display:grid;grid-template-columns: auto 1fr;align-items: center;justify-items: center;">
+				<div id="gamOverDetails" style="padding-left: 10px;margin-top:20px;margin-bottom: 20px;">
+					<div style="width: 120px;">
+						Your Score: 
+						<span id="gameOverScore" style="float: right;">10</span>
+					</div>
+					<div style="width: 120px;">
+						AI Score: 
+						<span id="gameOverAIScore" style="float: right;">10</span>
+					</div>
+				</div>
+				<button class="btn" style="width:76px;height:36px;" id="gameOverCommentButton">Comment On Game</button>
+			</div>
+			<div style="border-top:1px solid black;text-align:right;padding-right: 10px;">
+				<button class="btn" style="margin-top: 10px;margin-right:10px;" id="gameOverReplayButton">Replay</button>
+				<button class="btn" style="margin-top: 10px;margin-right:10px;" id="gameOverAutoButton">Auto Replay</button>
+				<button class="btn" style="margin-top: 10px;" id="gameOverCancelButton">OK</button>
+			</div>
+		</dialog>
+		<dialog id="optionsDialog" class="e-dialog" style="width: 300px;">
+			<header style="font-weight: bold;margin-bottom:15px;">
+				Solitaire Options: 
+			</header>
+			<div id="optionsDetails" style="padding-left: 10px;">
+				<h4 style="margin:0px;">Select Animation Speed:</h4>
+				<div id="optionsSpeed" class="custom-select">
+					<button class="select-button" role="combobox" aria-label="select button" aria-haspopup="listbox" aria-expanded="false" aria-controls="select-dropdown"> <span class="selected-value">Open this select menu</span> <span class="arrow"></span> </button>
+					<ul class="select-dropdown" role="listbox" id="select-dropdown">
+						<li role="option" data-speed="0">
+							<input type="radio" name="optionSpeeed" />
+							<label>None</label>
+						</li>
+						<li role="option" data-speed="1500">
+							<input type="radio" name="optionSpeeed" />
+							<label>Slow</label>
+						</li>
+						<li role="option" data-speed="1000" class="active">
+							<input type="radio" name="optionSpeeed" />
+							<label>Medium</label>
+						</li>
+						<li role="option" data-speed="500">
+							<input type="radio" name="optionSpeeed" />
+							<label>Fast</label>
+						</li>
+						<li role="option" data-speed="250">
+							<input type="radio" name="optionSpeeed" />
+							<label>Very Fast</label>
+						</li>
+					</ul>
+				</div>
+				<h4 style="margin:0px;">Select Number Of Turns:</h4>
+				<div id="optionsNumberTurn" class="custom-select">
+					<button class="select-button" role="combobox" aria-label="select button" aria-haspopup="listbox" aria-expanded="false" aria-controls="select-dropdown"> <span class="selected-value">Open this select menu</span> <span class="arrow"></span> </button>
+					<ul class="select-dropdown" role="listbox" id="select-dropdown">
+						<li role="option" data-number="2000" class='active'>
+							<input type="radio" name="optionNumberTurns" />
+							<label>Unlimited Turns</label>
+						</li>
+						<li role="option" data-number="1">
+							<input type="radio" name="optionNumberTurns" />
+							<label>Limit To One Turn</label>
+						</li>
+						<li role="option" data-number="3">
+							<input type="radio" name="optionNumberTurns" />
+							<label>Limit To Three Turns</label>
+						</li>
+					</ul>
+				</div>
+				<h4 style="margin:0px;">Select Card Turn Rate:</h4>
+				<div id="optionsTurnRate" class="custom-select">
+					<button class="select-button" role="combobox" aria-label="select button" aria-haspopup="listbox" aria-expanded="false" aria-controls="select-dropdown"> <span class="selected-value">Open this select menu</span> <span class="arrow"></span> </button>
+					<ul class="select-dropdown" role="listbox" id="select-dropdown">
+						<li role="option" data-number="1">
+							<input type="radio" name="optionTurnRate" />
+							<label>Turn One Card</label>
+						</li>
+						<li role="option" data-number="3" class="active">
+							<input type="radio" name="optionTurnRate" />
+							<label>Turn Three Cards</label>
+						</li>
+					</ul>
+				</div>
+				<h4 style="margin:0px;">Select Color:</h4>
+				<div id="optionsColor" class="custom-select">
+					<button class="select-button" role="combobox" aria-label="select button" aria-haspopup="listbox" aria-expanded="false" aria-controls="select-dropdown"> <span class="selected-value">Open this select menu</span> <span class="arrow"></span> </button>
+					<ul class="select-dropdown" role="listbox" id="select-dropdown">
+						<li role="option" data-color="#4b4be1,white">
+							<input type="radio" name="optionColor"/>
+							<label><div style="display:inline-block;width:30px;margin-right:10px;height:12px;border:1px solid grey;background:#4b4be1;"></div>Blue</label>
+						</li>
+						<li role="option" data-color="#ffee9c,black" class='active'>
+							<input type="radio" name="optionColor"/>
+							<label><div style="display:inline-block;width:30px;margin-right:10px;height:12px;border:1px solid grey;background:#ffee9c;"></div>Light Yellow</label>
+						</li>
+						<li role="option" data-color="#fff8dc,black" class='active'>
+							<input type="radio" name="optionColor"/>
+							<label><div style="display:inline-block;width:30px;margin-right:10px;height:12px;border:1px solid grey;background:#fff8dc;"></div>Cornsilk</label>
+						</li>
+						<li role="option" data-color="#ABC4E5,black" class='active'>
+							<input type="radio" name="optionColor"/>
+							<label><div style="display:inline-block;width:30px;margin-right:10px;height:12px;border:1px solid grey;background:#ABC4E5;"></div>Grey Blue</label>
+						</li>
+						<li role="option" data-color="#0b4c4c,#f8f8f0" class='active'>
+							<input type="radio" name="optionColor"/>
+							<label><div style="display:inline-block;width:30px;margin-right:10px;height:12px;border:1px solid grey;background:#0b4c4c;"></div>Slate Grey</label>
+						</li>
+					</ul>
+				</div>
+			</div>	
+			<div style="border-top:1px solid black;text-align:right;padding-right: 10px;">
+				<button class="btn" style="margin-top: 10px;margin-right:10px;" id="optionsOKButton">OK</button>
+				<button class="btn" style="margin-top: 10px;" id="optionsCancelButton">Cancel</button>
+			</div>
+		</dialog>
+		<dialog id="commentDialog" class="e-dialog" style="padding:15px;">
+			<h2 style="padding-top:0px;margin-top:0px;margin-bottom:0px;">Comments On Game</h2>
+			<div style="font-size:14px;width:100%;">
+				(Current game will be uploaded for evaluation)
+			</div>
+			<div id="commentDialogDetail" style="">
+				<div>Name:</div>
+				<div>
+					<input style="width:150px;" type="text" id="commentName" name="commentName" required>
+				</div>				
+				<div>EMail:</div>
+				<div>
+					<input style="width:150px;" type="email" id="commentEMail" name="recipient"> <div style="display:inline-block; padding-left:10px;">(Optional)</div>
+				</div>					
+				<div>Message:</div>
+				<div>
+					<textarea id="commentMessage" name="message" required style="width:250px;height:200px;"></textarea>
+				</div>					
+			</div>				
+			<div style="border-top:1px solid black;text-align:right;padding-right: 10px;">
+				<button class="btn" type="submit" style="margin-top: 10px;margin-right:10px;" id="commentOKButton">Send</button>
+				<button class="btn" style="margin-top: 10px;" id="commentCancelButton">Cancel</button>
+			</div>
+		</div>
+		</dialog>   
+
+</body>
+
+</html>
